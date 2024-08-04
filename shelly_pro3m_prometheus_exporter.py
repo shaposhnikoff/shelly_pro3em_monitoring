@@ -1,8 +1,6 @@
 from prometheus_client import make_wsgi_app, Gauge
 from prometheus_client.core import CollectorRegistry
 import requests
-import time
-import threading
 from flask import Flask
 
 app = Flask(__name__)
@@ -34,7 +32,7 @@ gauge_metrics = {
 
 def fetch_shelly_data():
     try:
-        response = requests.get(shelly_url)
+        response = requests.get(shelly_url,timeout=5)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
@@ -80,5 +78,7 @@ def fetch_and_update_loop():
 
 # Start the Prometheus server and metrics fetching/updating in separate threads
 if __name__ == '__main__':
+    import time
+    import threading
     threading.Thread(target=run_metrics_server).start()
     fetch_and_update_loop()

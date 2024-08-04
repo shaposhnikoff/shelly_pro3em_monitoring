@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30dd9b88-eb89-4b84-8e4b-a6fea7b9c6e5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/pylint.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pylint.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shelly_pro3m_prometheus_exporter.py" beforeDir="false" afterPath="$PROJECT_DIR$/shelly_pro3m_prometheus_exporter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
