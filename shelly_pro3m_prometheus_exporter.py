@@ -1,7 +1,8 @@
-""" A Prometheus exporter for Shelly Pro 3M device """
 from prometheus_client import make_wsgi_app, Gauge
 from prometheus_client.core import CollectorRegistry
 import requests
+import time
+import threading
 from flask import Flask
 
 app = Flask(__name__)
@@ -27,14 +28,22 @@ gauge_metrics = {
     'temperature_c': Gauge('shelly_temperature_c', 'Temperature in Celsius', registry=registry),
     'temperature_f': Gauge('shelly_temperature_f', 'Temperature in Fahrenheit', registry=registry),
     'ram_free': Gauge('shelly_ram_free', 'Free RAM', registry=registry),
-    'fs_free': Gauge('shelly_fs_free', 'Free Filesystem Space', registry=registry)
+    'fs_free': Gauge('shelly_fs_free', 'Free Filesystem Space', registry=registry),
+    'a_total_act_energy': Gauge('shelly_a_total_act_energy', 'Total Active Energy A', ['phase'], registry=registry),
+    'a_total_act_ret_energy': Gauge('shelly_a_total_act_ret_energy', 'Total Active Returned Energy A', ['phase'], registry=registry),
+    'b_total_act_energy': Gauge('shelly_b_total_act_energy', 'Total Active Energy B', ['phase'], registry=registry),
+    'b_total_act_ret_energy': Gauge('shelly_b_total_act_ret_energy', 'Total Active Returned Energy B', ['phase'], registry=registry),
+    'c_total_act_energy': Gauge('shelly_c_total_act_energy', 'Total Active Energy C', ['phase'], registry=registry),
+    'c_total_act_ret_energy': Gauge('shelly_c_total_act_ret_energy', 'Total Active Returned Energy C', ['phase'], registry=registry),
+    'total_act_energy': Gauge('shelly_total_act_energy', 'Total active energy on all phases', registry=registry),
+    'total_act_ret_energy': Gauge('shelly_total_act_ret_energy', 'Total Active Returned Energy', registry=registry)
+
 }
 
 
 def fetch_shelly_data():
-    """Fetch data from Shelly device and return as JSON"""
     try:
-        response = requests.get(shelly_url,timeout=5)
+        response = requests.get(shelly_url)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
@@ -43,7 +52,6 @@ def fetch_shelly_data():
 
 
 def update_metrics(data):
-    """Update Prometheus metrics with data from Shelly device"""
     if data:
         phases = ['a', 'b', 'c']
         for phase in phases:
@@ -61,21 +69,27 @@ def update_metrics(data):
             gauge_metrics['temperature_f'].set(data['temperature:0']['tF'])
             gauge_metrics['ram_free'].set(data['sys']['ram_free'])
             gauge_metrics['fs_free'].set(data['sys']['fs_free'])
+            gauge_metrics['a_total_act_energy'].labels(phase='a').set(data['emdata:0']['a_total_act_energy'])
+            gauge_metrics['a_total_act_ret_energy'].labels(phase='a').set(data['emdata:0']['a_total_act_ret_energy'])
+            gauge_metrics['b_total_act_energy'].labels(phase='b').set(data['emdata:0']['b_total_act_energy'])
+            gauge_metrics['b_total_act_ret_energy'].labels(phase='b').set(data['emdata:0']['b_total_act_ret_energy'])
+            gauge_metrics['c_total_act_energy'].labels(phase='c').set(data['emdata:0']['c_total_act_energy'])
+            gauge_metrics['c_total_act_ret_energy'].labels(phase='c').set(data['emdata:0']['c_total_act_ret_energy'])
+            gauge_metrics['total_act_energy'].set(data['emdata:0']['total_act'])
+            gauge_metrics['total_act_ret_energy'].set(data['emdata:0']['total_act_ret'])
 
+# concatenate the data from the two metrics
 
 @app.route('/metrics')
 def metrics():
-    """Expose Prometheus metrics"""
     return make_wsgi_app(registry)
 
 
 def run_metrics_server():
-    """ Run the Flask app on port 8004 """
-    app.run(host='0.0.0.0', port=8004)
+    app.run(host='0.0.0.0', port=8000)
 
 
 def fetch_and_update_loop():
-    """ Fetch data from Shelly device and update metrics in a loop """
     while True:
         data = fetch_shelly_data()
         update_metrics(data)
@@ -84,7 +98,6 @@ def fetch_and_update_loop():
 
 # Start the Prometheus server and metrics fetching/updating in separate threads
 if __name__ == '__main__':
-    import time
-    import threading
     threading.Thread(target=run_metrics_server).start()
     fetch_and_update_loop()
+
