@@ -3,4 +3,7 @@ disable=
     C0114, # missing-module-docstring
     C0115, # missing-class-docstring
     W1309, # missing-docstring
-    
+    C0301,
+    C0103,
+    E0606
+
