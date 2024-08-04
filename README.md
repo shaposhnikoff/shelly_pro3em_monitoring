@@ -1,6 +1,6 @@
 ## Overview
 
-This Python script is designed to collect metrics from a Shelly device
+This Python script is designed to collect metrics from a Shelly  device
 
 ![Shelly Device](pics/shelly.png)
 
