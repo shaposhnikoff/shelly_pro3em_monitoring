@@ -1,3 +1,4 @@
+""" A Prometheus exporter for Shelly Pro 3M device """
 from prometheus_client import make_wsgi_app, Gauge
 from prometheus_client.core import CollectorRegistry
 import requests
