@@ -31,6 +31,7 @@ gauge_metrics = {
 
 
 def fetch_shelly_data():
+    """Fetch data from Shelly device and return as JSON"""
     try:
         response = requests.get(shelly_url,timeout=5)
         response.raise_for_status()
@@ -41,6 +42,7 @@ def fetch_shelly_data():
 
 
 def update_metrics(data):
+    """Update Prometheus metrics with data from Shelly device"""
     if data:
         phases = ['a', 'b', 'c']
         for phase in phases:
@@ -61,15 +63,18 @@ def update_metrics(data):
 
 
 @app.route('/metrics')
+""" Expose the metrics on /metrics endpoint """
 def metrics():
     return make_wsgi_app(registry)
 
 
 def run_metrics_server():
+    """ Run the Flask app on port 8004 """
     app.run(host='0.0.0.0', port=8004)
 
 
 def fetch_and_update_loop():
+    """ Fetch data from Shelly device and update metrics in a loop """
     while True:
         data = fetch_shelly_data()
         update_metrics(data)
@@ -78,6 +83,7 @@ def fetch_and_update_loop():
 
 # Start the Prometheus server and metrics fetching/updating in separate threads
 if __name__ == '__main__':
+    """ Start the Prometheus server and metrics fetching/updating in separate threads """
     import time
     import threading
     threading.Thread(target=run_metrics_server).start()
