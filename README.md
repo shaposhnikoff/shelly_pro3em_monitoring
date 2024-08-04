@@ -1,6 +1,6 @@
 ## Overview
 
-This Python script is designed to collect metrics from a Shelly ![Shelly Pro 3EM](https://www.shelly.com/en-us/products/shop/shelly-pro-3-em) 
+This Python script is designed to collect metrics from a Shelly [Shelly Pro 3EM](https://www.shelly.com/en-us/products/shop/shelly-pro-3-em) 
 device
 
 ![Shelly Device](pics/shelly.png)
