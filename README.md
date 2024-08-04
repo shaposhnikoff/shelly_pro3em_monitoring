@@ -41,7 +41,12 @@ scrape_configs:
 ```sudo systemctl restart prometheus```
 
 #### Verify Prometheus is scraping the metrics:
-Open Prometheus' web interface and navigate to the "Targets" page (http://<your_prometheus_ip>:9090/targets). Ensure the Shelly exporter target is listed and marked as "UP."
+Open Prometheus' web interface and navigate to the "Targets" page (http://<your_prometheus_ip>:9090/targets). 
+Ensure the Shelly exporter target is listed and marked as "UP."
+
+# insert image here
+[![Prometheus Targets](pics/prom.png)]
+
 
 ### Integrating with Grafana
 
