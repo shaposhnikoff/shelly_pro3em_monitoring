@@ -44,8 +44,8 @@ scrape_configs:
 Open Prometheus' web interface and navigate to the "Targets" page (http://<your_prometheus_ip>:9090/targets). 
 Ensure the Shelly exporter target is listed and marked as "UP."
 
-# insert image here
-[![Prometheus Targets](pics/prom.png)]
+
+![Prometheus Targets](pics/prom.png)
 
 
 ### Integrating with Grafana
