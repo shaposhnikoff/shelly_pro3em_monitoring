@@ -1,6 +1,11 @@
 ## Overview
 
-This Python script is designed to collect metrics from a Shelly device and expose them to Prometheus for monitoring. The script uses Flask to create a web server that Prometheus can scrape for metrics, and the Prometheus client library to define and update the metrics.
+This Python script is designed to collect metrics from a Shelly device
+
+![Shelly Device](pics/shelly.png)
+
+and expose them to Prometheus for monitoring. 
+The script uses Flask to create a web server that Prometheus can scrape for metrics, and the Prometheus client library to define and update the metrics.
 
 ### Prerequisites
 
@@ -59,6 +64,9 @@ Set the URL to http://<your_prometheus_ip>:9090 and click "Save & Test."
 Navigate to "Create" > "Dashboard" and click "Add new panel."
 Select your Prometheus data source and use Prometheus query language to fetch the Shelly metrics (e.g., shelly_current, shelly_voltage).
 Customize the panels to display the desired metrics.
+
+![Grafana Dashboard](pics/grafana.png)
+
 
 #### Save the Dashboard:
 Click "Save" and give your dashboard a name.
