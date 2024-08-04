@@ -84,7 +84,6 @@ def fetch_and_update_loop():
 
 # Start the Prometheus server and metrics fetching/updating in separate threads
 if __name__ == '__main__':
-    """ Start the Prometheus server and metrics fetching/updating in separate threads """
     import time
     import threading
     threading.Thread(target=run_metrics_server).start()
