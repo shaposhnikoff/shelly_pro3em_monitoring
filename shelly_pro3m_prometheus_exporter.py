@@ -63,8 +63,8 @@ def update_metrics(data):
 
 
 @app.route('/metrics')
-""" Expose the metrics on /metrics endpoint """
 def metrics():
+    """Expose Prometheus metrics"""
     return make_wsgi_app(registry)
 
 
