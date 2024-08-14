@@ -1,19 +1,14 @@
 from prometheus_client import make_wsgi_app, Gauge
 from prometheus_client.core import CollectorRegistry
-import requests
-import time
-import threading
+import requests,time,threading
 from flask import Flask
 
 app = Flask(__name__)
 
-# Shelly device URL
 shelly_url = 'http://192.168.10.69/rpc/Shelly.GetStatus'
 
-# Create a custom registry
 registry = CollectorRegistry()
 
-# Create Prometheus metrics with labels
 gauge_metrics = {
     'current': Gauge('shelly_current', 'Current', ['phase'], registry=registry),
     'voltage': Gauge('shelly_voltage', 'Voltage', ['phase'], registry=registry),
@@ -37,9 +32,7 @@ gauge_metrics = {
     'c_total_act_ret_energy': Gauge('shelly_c_total_act_ret_energy', 'Total Active Returned Energy C', ['phase'], registry=registry),
     'total_act_energy': Gauge('shelly_total_act_energy', 'Total active energy on all phases', registry=registry),
     'total_act_ret_energy': Gauge('shelly_total_act_ret_energy', 'Total Active Returned Energy', registry=registry)
-
 }
-
 
 def fetch_shelly_data():
     try:
@@ -49,7 +42,6 @@ def fetch_shelly_data():
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return None
-
 
 def update_metrics(data):
     if data:
@@ -78,16 +70,12 @@ def update_metrics(data):
             gauge_metrics['total_act_energy'].set(data['emdata:0']['total_act'])
             gauge_metrics['total_act_ret_energy'].set(data['emdata:0']['total_act_ret'])
 
-# concatenate the data from the two metrics
-
 @app.route('/metrics')
 def metrics():
     return make_wsgi_app(registry)
 
-
 def run_metrics_server():
     app.run(host='0.0.0.0', port=8000)
-
 
 def fetch_and_update_loop():
     while True:
@@ -95,9 +83,6 @@ def fetch_and_update_loop():
         update_metrics(data)
         time.sleep(10)
 
-
-# Start the Prometheus server and metrics fetching/updating in separate threads
 if __name__ == '__main__':
     threading.Thread(target=run_metrics_server).start()
     fetch_and_update_loop()
-
