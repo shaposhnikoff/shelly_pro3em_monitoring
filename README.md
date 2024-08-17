@@ -68,8 +68,8 @@ Set the URL to http://<your_prometheus_ip>:9090 and click "Save & Test."
 To import the pre-configured Grafana dashboard for monitoring your Shelly Pro 3EM device, follow these steps:
 ### Prerequisites
 
-    Ensure that your Grafana instance is up and running.
-    The Prometheus data source should be configured in Grafana with metrics from your Shelly Pro 3EM exporter.
+Ensure that your Grafana instance is up and running.
+The Prometheus data source should be configured in Grafana with metrics from your Shelly Pro 3EM exporter.
 
 #### Create a Dashboard:
 * Import the Dashboard:
