@@ -61,10 +61,33 @@ Open Grafana and navigate to "Configuration" > "Data Sources."
 Click "Add data source" and select "Prometheus."
 Set the URL to http://<your_prometheus_ip>:9090 and click "Save & Test."
 
+
+
+## Importing the Shelly Pro 3EM Grafana Dashboard
+
+To import the pre-configured Grafana dashboard for monitoring your Shelly Pro 3EM device, follow these steps:
+### Prerequisites
+
+    Ensure that your Grafana instance is up and running.
+    The Prometheus data source should be configured in Grafana with metrics from your Shelly Pro 3EM exporter.
+
 #### Create a Dashboard:
-Navigate to "Create" > "Dashboard" and click "Add new panel."
-Select your Prometheus data source and use Prometheus query language to fetch the Shelly metrics (e.g., shelly_current, shelly_voltage).
-Customize the panels to display the desired metrics.
+* Import the Dashboard:
+  In the left-hand menu, click on Create > Import.
+  You will be prompted to either paste the dashboard JSON, upload a JSON file, or enter a Grafana dashboard ID ( 21725 ).
+  Choose the option to upload the shelly_pro_3em_dashboard.json file from your local system.
+
+  Configure Data Source:
+  After uploading, you might be prompted to select the Prometheus data source. Choose the correct data source configured for your Shelly Pro 3EM metrics.
+
+  Save and View the Dashboard:
+  Once imported, click Save to save the dashboard.
+  You can now view real-time metrics and historical data from your Shelly Pro 3EM device on the Grafana dashboard.
+
+  Customizing the Dashboard
+  The dashboard is fully customizable. You can add, remove, or modify panels according to your needs.
+  For additional configurations or to contribute improvements, feel free to submit a pull request or open an issue.
+
 
 ![Grafana Dashboard](pics/grafana.png)
 
